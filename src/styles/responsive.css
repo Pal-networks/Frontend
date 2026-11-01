@@ -1,0 +1,93 @@
+/* Phones */
+.side-nav {
+  scrollbar-width: none;
+}
+
+.side-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.facts div {
+  flex-wrap: wrap;
+}
+
+.facts dd {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+  .topbar {
+    padding-left: 16px;
+    padding-right: 16px;
+    height: calc(var(--header-height) + env(safe-area-inset-top));
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .center {
+    padding: 12px;
+    align-items: start;
+    padding-top: 24px;
+  }
+
+  .content {
+    padding: 16px 12px 12vh;
+  }
+
+  .card {
+    padding: 20px 16px;
+    gap: 16px;
+  }
+
+  .card.empty {
+    padding: 28px 16px;
+  }
+
+  /* Only the current step keeps its name, so the steps fit on one line. */
+  .stepper {
+    flex-wrap: nowrap;
+  }
+  .stepper li {
+    flex: 0 0 auto;
+  }
+  .stepper li.current {
+    flex: 1 1 auto;
+  }
+  .stepper li:not(.current) .step-name {
+    display: none;
+  }
+
+  .heir-row .icon-btn {
+    justify-self: end;
+  }
+
+  .wizard-nav .btn {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* 16px stops iPhones zooming in when a field is tapped. */
+  .input,
+  .select {
+    font-size: 16px;
+  }
+  .mono-input {
+    font-size: 15px;
+  }
+
+  .modal {
+    padding: 20px 16px;
+  }
+}
+
+/* Easier to tap on touch screens */
+@media (pointer: coarse) {
+  .icon-btn {
+    width: 40px;
+    height: 40px;
+  }
+  .btn.small {
+    padding: 8px 12px;
+  }
+}
+

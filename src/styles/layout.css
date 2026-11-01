@@ -1,0 +1,136 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+
+/* The header stays at the top while the page scrolls. */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: var(--header-height);
+  flex: none;
+  padding: 0 max(16px, 4vw);
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius);
+  background: var(--purple-100);
+  color: var(--purple-600);
+  display: grid;
+  place-items: center;
+  font-weight: 500;
+}
+
+.brand {
+  font-weight: 500;
+}
+
+.center {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  padding-bottom: 8vh;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card h1 {
+  font-size: 1.4rem;
+  text-align: center;
+}
+
+.card .lead {
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 7px 14px;
+  font-size: 0.92rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--text);
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.btn:hover {
+  background: var(--purple-50);
+  border-color: var(--purple-200);
+}
+
+.btn.primary {
+  background: var(--purple-600);
+  border-color: var(--purple-600);
+  color: #fff;
+}
+
+.btn.primary:hover {
+  background: var(--purple-700);
+  border-color: var(--purple-700);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn.small {
+  width: auto;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  gap: 6px;
+}
+
+.btn.small .icon {
+  font-size: 18px;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+

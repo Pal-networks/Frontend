@@ -1,0 +1,23 @@
+/* Developer log (development only) */
+.debug {
+  margin: 0 max(16px, 4vw) 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-soft);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.debug summary {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.debug pre {
+  margin: 0;
+  padding: 0 12px 12px;
+  white-space: pre-wrap;
+  word-break: break-all;
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+}
+

@@ -1,0 +1,193 @@
+/* Vault page */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.content .card,
+.content .status-card {
+  max-width: none;
+}
+
+.content .card h2 {
+  font-size: 1.15rem;
+}
+
+.btn.big {
+  padding: 10px 14px;
+  font-size: 1rem;
+}
+
+.reason {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.reason .icon {
+  font-size: 16px;
+}
+
+.plain-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.plain-rows li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.row-right {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+}
+
+.break {
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+.badge.accepted {
+  background: var(--ok-bg);
+  color: var(--ok);
+}
+
+.badge.invited {
+  background: var(--purple-100);
+}
+
+.badge.expired {
+  background: var(--warn-bg);
+  color: var(--warn);
+}
+
+a.vault-row {
+  color: inherit;
+  text-decoration: none;
+}
+
+a.vault-row:hover {
+  background: var(--purple-50);
+  border-color: var(--purple-200);
+}
+
+
+/* Digits keep their width, so a ticking countdown does not jiggle. */
+.countdown {
+  font-variant-numeric: tabular-nums;
+}
+
+.balance-amount {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+/* Status and balance side by side, stacked when there is not enough room. */
+.two-cards {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+}
+
+.with-sidebar .content {
+  max-width: 980px;
+}
+
+@media (min-width: 1040px) {
+  .two-cards {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+/* Activity */
+.activity {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.activity li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.activity-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius);
+  background: var(--surface-muted);
+  color: var(--text-muted);
+}
+
+.activity-icon .icon {
+  font-size: 16px;
+}
+
+.activity-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 8px;
+  font-size: 0.92rem;
+  overflow-wrap: anywhere;
+}
+
+.activity-text .hint {
+  margin: 0;
+}
+
+.activity-time {
+  flex: none;
+  margin: 0;
+  text-decoration: none;
+}
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+
+.page-btn {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 8px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 0.88rem;
+}
+
+.page-btn:hover {
+  background: var(--surface-muted);
+}
+
+.page-btn.active {
+  background: var(--surface-muted);
+  color: var(--text);
+  border-color: var(--text-muted);
+}

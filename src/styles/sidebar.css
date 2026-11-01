@@ -1,0 +1,87 @@
+/* Vault sidebar. On phones it sits on top, with the sections as a row of tabs. */
+.with-sidebar {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  min-width: 0;
+}
+
+.side-title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-weight: 500;
+}
+
+.side-title .hint {
+  margin: 0;
+  font-weight: 400;
+}
+
+.side-nav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+}
+
+.side-nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.93rem;
+  white-space: nowrap;
+}
+
+.side-nav a:hover {
+  background: var(--surface-muted);
+  color: var(--text);
+}
+
+.side-nav a.active {
+  background: var(--surface-muted);
+  color: var(--text);
+}
+
+@media (min-width: 800px) {
+  /* Pinned to the window, so it never moves when the page scrolls. */
+  .with-sidebar {
+    margin-left: 240px;
+  }
+  .sidebar {
+    position: fixed;
+    top: var(--header-height);
+    bottom: 0;
+    left: 0;
+    width: 240px;
+    overflow-y: auto;
+    border-bottom: none;
+    border-right: 1px solid var(--border);
+    padding: 20px 14px;
+    z-index: 10;
+  }
+  .page:has(.with-sidebar) .debug {
+    margin-left: 256px;
+  }
+  .side-nav {
+    flex-direction: column;
+    overflow: visible;
+  }
+}
+

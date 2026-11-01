@@ -1,0 +1,129 @@
+/* Header account button and modal */
+.spacer {
+  flex: 1;
+}
+
+.account-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.88rem;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.account-btn:hover {
+  background: var(--purple-50);
+  border-color: var(--purple-200);
+}
+
+.account-btn .icon {
+  color: var(--purple-600);
+}
+
+.modal {
+  width: min(440px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--text);
+  overflow: auto;
+}
+
+.modal.wide {
+  width: min(700px, calc(100vw - 32px));
+}
+
+.modal[open] {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Plain dim background: no blur, no glow. */
+.modal::backdrop {
+  background: rgba(28, 23, 51, 0.35);
+}
+
+.modal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.modal-head h2 {
+  font-size: 1.15rem;
+}
+
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--text-muted);
+}
+
+.icon-btn:hover {
+  background: var(--purple-50);
+  border-color: var(--purple-100);
+}
+
+
+/* The "How Pal works" explainer */
+.help-btn {
+  color: var(--text-muted);
+}
+
+.help-steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.help-steps li {
+  counter-increment: step;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  column-gap: 10px;
+}
+
+.help-steps li::before {
+  content: counter(step);
+  grid-row: span 2;
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.help-steps span {
+  color: var(--text-muted);
+}
+
+.help-section h3 {
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.help-section p {
+  color: var(--text-muted);
+}

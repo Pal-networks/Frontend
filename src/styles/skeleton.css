@@ -1,0 +1,45 @@
+/* Skeleton loaders: calm placeholder blocks while something loads. */
+.skeleton {
+  background: var(--purple-50);
+  border-radius: var(--radius-sm);
+  animation: skeleton-pulse 1.6s ease-in-out infinite;
+}
+
+.sk-title {
+  height: 26px;
+  width: 55%;
+  margin: 0 auto;
+}
+
+.sk-line {
+  height: 14px;
+}
+
+.sk-line.center-line {
+  margin: 0 auto;
+}
+
+.sk-button {
+  height: 36px;
+  border-radius: var(--radius);
+}
+
+.sk-box {
+  height: 36px;
+}
+
+@keyframes skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}
