@@ -1,16 +1,19 @@
-// Talks to Pal's small backend (api/index.ts) about Telegram alerts.
+// Talks to Pal's backend (the Railway service in ../backend) about Telegram alerts.
 // Linking and unlinking are signed with the person's NEAR key, so nobody else
 // can connect their own Telegram to someone's vaults.
+import { config } from '../config'
 
 type SignHash = (hash: `0x${string}`) => Promise<`0x${string}`>
 
 export interface TelegramStatus {
-  /** False when the site has no bot or database set up (for example on localhost). */
+  /** False when no backend address is set, or the backend cannot be reached. */
   available: boolean
   linked: boolean
+  /** "@username" or the first name of the connected Telegram account, when known. */
+  telegram?: string | null
 }
 
-/** Must match proofMessage in api/index.ts exactly. */
+/** Must match proofMessage in backend/src/proof.ts exactly. */
 function proofMessage(action: string, accountId: string, issuedAt: number): string {
   return `Pal Telegram alerts\naction: ${action}\naccount: ${accountId}\nissued: ${issuedAt}`
 }
@@ -26,16 +29,18 @@ async function signedBody(action: string, accountId: string, signHash: SignHash)
   return JSON.stringify({ accountId, issuedAt, signature })
 }
 
+class Unreachable extends Error {}
+
 async function api<T>(path: string, init?: RequestInit): Promise<T> {
+  if (!config.palApiUrl) throw new Unreachable('Telegram alerts are not set up on this site.')
   let res: Response
   try {
-    res = await fetch(`/api/${path}`, init)
+    res = await fetch(`${config.palApiUrl}/${path}`, init)
   } catch {
-    throw new Error('Could not reach Pal. Check your connection and try again.')
+    throw new Unreachable('Could not reach Pal’s alert service. Please try again later.')
   }
-  // The local dev server has no backend and answers with the app's own page.
   if (!(res.headers.get('content-type') ?? '').includes('application/json')) {
-    throw new Error('Telegram alerts are not available on this site.')
+    throw new Unreachable('Pal’s alert service gave an unexpected answer. Please try again later.')
   }
   const body = (await res.json()) as T & { error?: string }
   if (!res.ok) throw new Error(body.error ?? 'Something went wrong. Please try again.')
@@ -43,12 +48,8 @@ async function api<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 export async function getTelegramStatus(accountId: string): Promise<TelegramStatus> {
-  try {
-    return await api<TelegramStatus>(`telegram/status?account=${encodeURIComponent(accountId)}`)
-  } catch (e) {
-    if (e instanceof Error && /not available/.test(e.message)) return { available: false, linked: false }
-    throw e
-  }
+  if (!config.palApiUrl) return { available: false, linked: false }
+  return api<TelegramStatus>(`telegram/status?account=${encodeURIComponent(accountId)}`)
 }
 
 /** Returns a one-time Telegram link. Opening it and pressing Start finishes the connection. */

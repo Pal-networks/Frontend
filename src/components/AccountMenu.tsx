@@ -39,7 +39,7 @@ export function AccountMenu() {
       </button>
 
       {open && (
-        <Modal title="Your account" subtitle={auth.email ?? undefined} onClose={() => setOpen(false)}>
+        <Modal title="Your account" subtitle={auth.email ?? undefined} onClose={() => setOpen(false)} className="modal-glow">
           {auth.error && <ErrorLine message={auth.error} />}
 
           <div className="field">

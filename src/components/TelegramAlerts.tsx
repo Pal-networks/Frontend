@@ -57,7 +57,7 @@ export function TelegramAlerts({ accountId }: { accountId: string }) {
         <div className="row">
           <span className="telegram-on">
             <Icon name="check" />
-            Connected
+            {status.telegram ? `Connected as ${status.telegram}` : 'Connected'}
           </span>
           <button
             className="btn small"

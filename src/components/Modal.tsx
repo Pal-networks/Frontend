@@ -12,6 +12,7 @@ export function Modal({
   onClose,
   locked = false,
   wide = false,
+  className = '',
 }: {
   title: string
   subtitle?: string
@@ -19,6 +20,8 @@ export function Modal({
   onClose: () => void
   locked?: boolean
   wide?: boolean
+  /** Extra look for one modal, such as "modal-glow". */
+  className?: string
 }) {
   const dialog = useRef<HTMLDialogElement>(null)
 
@@ -35,7 +38,7 @@ export function Modal({
   return (
     <dialog
       ref={dialog}
-      className={wide ? 'modal wide' : 'modal'}
+      className={['modal', wide && 'wide', className].filter(Boolean).join(' ')}
       aria-label={title}
       onCancel={(e) => {
         e.preventDefault() // the app decides whether it closes

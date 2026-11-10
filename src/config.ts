@@ -10,6 +10,8 @@ export const config = {
   vaultAccount: env.VITE_VAULT_ACCOUNT ?? '',
   signerContract: env.VITE_SIGNER_CONTRACT || 'v1.signer-prod.testnet',
   sepoliaRpc: env.VITE_SEPOLIA_RPC ?? '',
+  /** Pal's backend for Telegram alerts (the Railway service). Empty hides the Telegram option. */
+  palApiUrl: (env.VITE_PAL_API_URL ?? '').replace(/\/+$/, ''),
 }
 
 /** Names of required settings that are empty, so the app can say what to fix. */
