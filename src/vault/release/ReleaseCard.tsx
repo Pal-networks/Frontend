@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { useAuth } from '../../auth/context'
 import { friendlyError } from '../../auth/errors'
 import { ConfirmButton } from '../../components/ConfirmButton'
 import { Icon } from '../../components/Icon'
@@ -11,12 +12,16 @@ import { releaseState, runRelease } from './runRelease'
 
 type View = 'checking' | 'ready' | 'running' | 'done' | 'failed'
 
+const guardiansWord = (n: number) => `${n} guardian${n === 1 ? '' : 's'}`
+
 /**
- * Shown when the countdown has ended. A guardian presses one button and the
- * app does every step. Payments already made are not repeated. The owner sees
- * the progress. Starting the vault again is in Settings.
+ * Shown when the countdown has ended. As many guardians as had to approve
+ * each press Release funds; the last press makes the payments. Payments
+ * already made are not repeated. The owner sees the progress. Starting the
+ * vault again is in Settings.
  */
 export function ReleaseCard({ rules, status, reload, isOwner }: { rules: Rules; status: Status; reload: () => Promise<void>; isOwner: boolean }) {
+  const { accountId } = useAuth()
   const [view, setView] = useState<View>('checking')
   const [progress, setProgress] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -63,6 +68,30 @@ export function ReleaseCard({ rules, status, reload, isOwner }: { rules: Rules; 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rules.vault_id, heirCount])
 
+  // An older contract has no confirmations: one guardian's press is enough there.
+  const confirmations = status.release_confirmations
+  const needsConfirming = confirmations !== undefined
+  const confirmedCount = confirmations?.length ?? 0
+  const enoughConfirmed = !needsConfirming || confirmedCount >= rules.threshold
+  const iConfirmed = !!accountId && !!confirmations?.includes(accountId)
+  const stillNeeded = Math.max(0, rules.threshold - confirmedCount)
+
+  /** Records this guardian's press. If it was the last one needed, the payments go out. */
+  const confirmAndMaybeRun = async () => {
+    setError(null)
+    setView('running')
+    setProgress('Recording that you pressed Release funds…')
+    try {
+      const count = Number(await sendVaultCall('confirm_release', { vault_id: rules.vault_id }))
+      await reload()
+      if (count >= rules.threshold) await run(status)
+      else setView('ready')
+    } catch (e) {
+      setError(friendlyError(e))
+      setView('ready')
+    }
+  }
+
   const retry = async () => {
     setError(null)
     setView('running')
@@ -87,22 +116,57 @@ export function ReleaseCard({ rules, status, reload, isOwner }: { rules: Rules; 
       {hasHeirs && view === 'checking' && <div className="skeleton sk-box" aria-busy="true" aria-label="Checking the release" />}
 
       {hasHeirs && isOwner && (view === 'ready' || view === 'failed') && (
-        <InfoLine>The countdown has ended. A guardian now carries out the release, so there is nothing for you to do.</InfoLine>
+        <InfoLine>
+          The countdown has ended. {guardiansWord(rules.threshold)} must now press Release funds, so there is nothing for you to do.
+          {needsConfirming && ` ${confirmedCount} of ${rules.threshold} have pressed it.`}
+        </InfoLine>
       )}
 
       {hasHeirs && !isOwner && view === 'ready' && (
         <>
           <p className="lead-left">The countdown has ended. The vault's balance can now go to: {summary}.</p>
-          <ConfirmButton
-            className="btn primary big"
-            title="Release the funds"
-            question={`Send the vault's balance to ${summary}? This cannot be undone.`}
-            confirmLabel="Yes, release"
-            onConfirm={() => void run(status)}
-          >
-            <Icon name="send" />
-            Release funds
-          </ConfirmButton>
+          {needsConfirming && (
+            <p className="hint">
+              {confirmedCount} of {rules.threshold} guardians have pressed Release funds. The payments go out when the last one does.
+            </p>
+          )}
+
+          {!enoughConfirmed && !iConfirmed && (
+            <ConfirmButton
+              className="btn primary big"
+              title="Release the funds"
+              question={
+                stillNeeded === 1
+                  ? `You are the last guardian needed. Send the vault's balance to ${summary}? This cannot be undone.`
+                  : `Agree to send the vault's balance to ${summary}? ${guardiansWord(stillNeeded - 1)} more must also press Release funds before anything is sent.`
+              }
+              confirmLabel="Yes, release"
+              onConfirm={() => void confirmAndMaybeRun()}
+            >
+              <Icon name="send" />
+              Release funds
+            </ConfirmButton>
+          )}
+
+          {!enoughConfirmed && iConfirmed && (
+            <InfoLine>
+              You have pressed Release funds. Waiting for {guardiansWord(stillNeeded)} more to press it.
+            </InfoLine>
+          )}
+
+          {/* Enough guardians agreed but the payments have not gone out, for example if a page was closed. Any guardian can finish. */}
+          {enoughConfirmed && (
+            <ConfirmButton
+              className="btn primary big"
+              title="Release the funds"
+              question={`Send the vault's balance to ${summary}? This cannot be undone.`}
+              confirmLabel="Yes, release"
+              onConfirm={() => void run(status)}
+            >
+              <Icon name="send" />
+              Release funds
+            </ConfirmButton>
+          )}
         </>
       )}
 

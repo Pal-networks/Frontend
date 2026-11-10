@@ -129,6 +129,11 @@ function Inner({ children }: { children: ReactNode }) {
     debug,
     retryNearWallet: makeNearWallet,
     refreshBalance,
+    signHash: async (hash) => {
+      if (!accountId) throw new Error('Your NEAR account is not ready yet.')
+      const { signature } = await signRef.current({ address: accountId, chainType: 'near', hash })
+      return signature
+    },
     logOut,
   }
 

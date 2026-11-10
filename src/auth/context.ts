@@ -23,6 +23,8 @@ export interface AuthValue {
   /** Try again to create the NEAR account. */
   retryNearWallet: () => Promise<void>
   refreshBalance: () => Promise<void>
+  /** Signs a 32-byte hash with the NEAR account's key (proves who you are to Pal's server). */
+  signHash: (hash: `0x${string}`) => Promise<`0x${string}`>
   logOut: () => Promise<void>
 }
 

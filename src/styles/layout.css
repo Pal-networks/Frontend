@@ -86,6 +86,10 @@
   transition: background 0.15s, border-color 0.15s;
 }
 
+a.btn {
+  text-decoration: none;
+}
+
 .btn:hover {
   background: var(--purple-50);
   border-color: var(--purple-200);

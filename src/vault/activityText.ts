@@ -29,6 +29,8 @@ export function describeActivity(a: ActivityItem): { text: string; icon: string 
       return { text: 'Owner cancelled the release', icon: 'close' }
     case 'reveal_heirs':
       return { text: 'Hidden heirs were revealed', icon: 'visibility_off' }
+    case 'confirm_release':
+      return { text: 'Guardian pressed Release funds', icon: 'send' }
     case 'start_execution':
       return { text: 'Release numbers were fixed', icon: 'lock' }
     case 'reset_execution':

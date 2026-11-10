@@ -6,6 +6,7 @@ import { CopyButton } from './CopyButton'
 import { Icon } from './Icon'
 import { ErrorLine, InfoLine } from './Messages'
 import { Modal } from './Modal'
+import { TelegramAlerts } from './TelegramAlerts'
 import { TokenAmount } from './TokenAmount'
 
 /** The account button in the header, and the modal it opens. */
@@ -71,6 +72,8 @@ export function AccountMenu() {
               This account has no test NEAR yet, so it cannot do anything on the network. Send test NEAR to the account above from another testnet account, then press Refresh. The website faucet does not accept this kind of account.
             </InfoLine>
           )}
+
+          <TelegramAlerts accountId={accountId} />
 
           <button
             className="btn"

@@ -52,6 +52,12 @@ export interface Status {
   execution_started: boolean
   /** The Ethereum nonce of the first payout, once the numbers are fixed. */
   execution_base_nonce?: number | null
+  /**
+   * Guardians who pressed Release funds after the countdown. Payments start
+   * once there are as many as the threshold. Missing on an older contract,
+   * where one guardian's press was enough.
+   */
+  release_confirmations?: string[]
 }
 
 export const getRules = (vaultId: number) =>

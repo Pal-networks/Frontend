@@ -46,6 +46,13 @@
   gap: 10px;
 }
 
+.telegram-on {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ok);
+}
+
 .mono {
   font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
   font-size: 0.82rem;

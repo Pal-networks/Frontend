@@ -21,3 +21,17 @@ npm run build    # type-check and production build
 Style: white, clean, light purple. No bold text, no shadows, small corners, Google Material Symbols icons, skeleton loaders. See `src/index.css` for the design tokens.
 
 See `../inheritance-vault/README.md` for what is verified and what is not.
+
+## Telegram alerts
+
+`api/index.ts` is a small Vercel Function (one file, every `/api` path; `vercel.json` routes them to it). People connect Telegram from the account window. A free outside scheduler calls `/api/notify` every minute, and the bot messages:
+
+- the owner when a check-in is due, when guardians can start a release, and when the countdown starts;
+- guardians when they can approve, and when the countdown ends and they must press Release funds;
+- everyone when the heirs have been paid. Each alert is sent once per round.
+
+Linking is signed with the person's NEAR key: a Privy account's ID is its public key, so the server checks the signature without any Privy secret. The bot's link codes last 15 minutes and work once.
+
+Vercel environment variables (Secret type, never `VITE_`): `TELEGRAM_BOT_TOKEN`, `TELEGRAM_WEBHOOK_SECRET`, `CRON_SECRET`. Config type: `TELEGRAM_BOT_USERNAME`, and optionally `PAL_APP_URL` (otherwise the production address is used in messages). Upstash Redis from the Vercel Marketplace adds `KV_REST_API_URL` and `KV_REST_API_TOKEN` (or the `UPSTASH_REDIS_REST_*` pair). The function also reads the existing `VITE_VAULT_ACCOUNT`, `VITE_NEAR_RPC`, `VITE_SIGNER_CONTRACT` and `VITE_SEPOLIA_RPC`.
+
+After deploying, point the bot at the site once (`POST /api/telegram/setup` with `Authorization: Bearer <CRON_SECRET>`), then have the scheduler call `GET /api/notify` every minute with the same header. `npm run dev` has no backend, so the Telegram option is hidden on localhost.

@@ -8,7 +8,7 @@ const STEPS = [
   { title: 'Check in', text: 'The owner checks in now and then. As long as they do, nothing happens.' },
   { title: 'If the owner goes silent', text: 'After the silence period, guardians can approve a release. When enough agree, a countdown starts.' },
   { title: 'The owner can still stop it', text: 'Until the countdown ends, the owner can cancel. After that, it cannot be stopped.' },
-  { title: 'Release', text: 'A guardian presses Release funds, and the heirs receive their shares.' },
+  { title: 'Release', text: 'As many guardians as had to approve each press Release funds. When the last one does, the heirs receive their shares.' },
 ]
 
 /** The question mark in the header, and the explainer it opens. */

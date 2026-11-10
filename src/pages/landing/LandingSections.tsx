@@ -4,7 +4,7 @@ const STEPS = [
   { title: 'Create a vault', text: 'Name it, choose your heirs and their shares, and add guardians you trust.' },
   { title: 'Add funds and check in', text: 'The vault has its own Ethereum address. Check in now and then, and nothing changes.' },
   { title: 'If you go silent', text: 'After the time you set, guardians can approve a release. A countdown then starts, and you can still cancel.' },
-  { title: 'Your heirs receive', text: 'When the countdown ends, a guardian releases the funds. Each heir receives the share you chose.' },
+  { title: 'Your heirs receive', text: 'When the countdown ends, the guardians press Release funds. Each heir receives the share you chose.' },
 ]
 
 const REASONS = [
